@@ -1,13 +1,18 @@
 import Button from '@/components/ui/buttons/Button'
 import Input from '@/components/ui/forms/inputs/Input'
 import Radio from '@/components/ui/forms/radio/Radio'
+import ValidMsg from '@/components/ui/forms/validMsg/ValidMsg'
 import { SearchBookOptions } from '@/data/constant'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { styled, theme } from 'twin.macro'
 
 export default function SearchBook() {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
     defaultValues: {
       keyword_1: '',
       keyword_2: '',
@@ -23,7 +28,10 @@ export default function SearchBook() {
     <SearchBookContainer>
       <LabelForm>
         <Label>첫번째 검색어</Label>
-        <Input {...register('keyword_1')} />
+        <Input
+          {...register('keyword_1', { required: true })}
+          hasError={!!errors['keyword_1']}
+        />
       </LabelForm>
       <LabelForm>
         <Label>두번째 검색어</Label>
@@ -45,6 +53,10 @@ export default function SearchBook() {
       <ButtonContainer>
         <Button onClick={submitHandler}>검색</Button>
       </ButtonContainer>
+
+      {errors['keyword_1'] && (
+        <ValidMsg text={'첫번째 검색어를 입력해주세요.'} />
+      )}
     </SearchBookContainer>
   )
 }

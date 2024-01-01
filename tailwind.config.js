@@ -2,9 +2,13 @@
 module.exports = {
   theme: {
     extend: {
+      variables: {
+        'max-width': '500px',
+        'mobile-gutter': '20px',
+      },
       colors: {
-        electric: '#db00ff',
-        ribbon: '#0047ff',
+        primary: '#db00ff',
+        secondary: '#0047ff',
       },
     },
   },

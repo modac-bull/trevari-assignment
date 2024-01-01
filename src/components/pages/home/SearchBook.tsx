@@ -21,16 +21,17 @@ export default function SearchBook() {
 
   return (
     <SearchBookContainer>
-      <KeywordInput>
-        <p>첫번째 검색어</p>
+      <LabelForm>
+        <Label>첫번째 검색어</Label>
         <Input {...register('keyword_1')} />
-      </KeywordInput>
-      <KeywordInput>
-        <p>두번째 검색어</p>
+      </LabelForm>
+      <LabelForm>
+        <Label>두번째 검색어</Label>
         <Input {...register('keyword_2')} />
-      </KeywordInput>
+      </LabelForm>
 
-      <ButtonContainer>
+      <LabelForm>
+        <Label>검색 조건</Label>
         {SearchBookOptions.map(option => (
           <Radio
             key={option.value}
@@ -39,6 +40,9 @@ export default function SearchBook() {
             {...register('search_option')}
           />
         ))}
+      </LabelForm>
+
+      <ButtonContainer>
         <Button onClick={submitHandler}>검색</Button>
       </ButtonContainer>
     </SearchBookContainer>
@@ -54,6 +58,12 @@ const SearchBookContainer = styled.div`
   border-radius: 8px;
 `
 
-const KeywordInput = styled.div``
+const LabelForm = styled.div``
 
 const ButtonContainer = styled.div``
+
+const Label = styled.p`
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: ${theme`colors.gray.800`};
+`

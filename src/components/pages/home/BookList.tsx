@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled, theme } from 'twin.macro'
+import { styled } from 'twin.macro'
 import BookItem from './BookItem'
 import { BookType } from '@/apis/search/search.type'
 
@@ -17,5 +17,5 @@ export default function BookList({ listData }: Props) {
 }
 
 const BookListContainer = styled.div`
-  padding: 10px 10px;
+  padding: 20px 0;
 `

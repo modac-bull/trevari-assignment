@@ -11,9 +11,7 @@ export default function BookList({ listData }: Props) {
   return (
     <BookListContainer>
       {listData.length > 0 &&
-        listData.map(article => (
-          <BookItem key={article.isbn13} data={article} />
-        ))}
+        listData.map((book, i) => <BookItem key={i} data={book} />)}
     </BookListContainer>
   )
 }

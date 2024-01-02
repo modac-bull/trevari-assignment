@@ -6,6 +6,7 @@ import { useSearchBooksInfinityQuery } from '@/apis/search/search.query'
 import BookList from './BookList'
 import 'twin.macro'
 import { useInView } from 'react-intersection-observer'
+import Spinner from '@/components/ui/spinner/Spinner'
 
 type Props = {}
 
@@ -18,8 +19,6 @@ export default function HomePage({}: Props) {
         input: q as string,
       },
     })
-
-  console.log('data : ', data)
 
   // `useInView` 훅 사용
   const [ref, inView] = useInView({
@@ -40,7 +39,7 @@ export default function HomePage({}: Props) {
       <SearchBook />
 
       {isLoading ? (
-        <span>로딩중</span>
+        <Spinner />
       ) : data ? (
         data.pages.map((group, i) => {
           return group.books.length > 0 ? (
@@ -56,7 +55,7 @@ export default function HomePage({}: Props) {
       ) : (
         <p>데이터 없음</p>
       )}
-      {isFetchingNextPage && <span>로딩중</span>}
+      {isFetchingNextPage && <Spinner />}
       <div ref={ref}></div>
     </HomePageConatiner>
   )

@@ -30,7 +30,6 @@ export default function SearchBook() {
     if (router.query.q) {
       const query = router.query.q as string
       const parsed = parseKeywords(query)
-      console.log('parsed : ', parsed)
 
       switch (parsed.type) {
         case 'or':

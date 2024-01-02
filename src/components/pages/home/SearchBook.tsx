@@ -3,13 +3,16 @@ import Input from '@/components/ui/forms/inputs/Input'
 import Radio from '@/components/ui/forms/radio/Radio'
 import ValidMsg from '@/components/ui/forms/validMsg/ValidMsg'
 import { SearchBookOptions } from '@/data/constant'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { styled, theme } from 'twin.macro'
 
 export default function SearchBook() {
+  const router = useRouter()
   const {
     register,
+    watch,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -21,7 +24,30 @@ export default function SearchBook() {
   })
 
   const submitHandler = handleSubmit(data => {
-    console.log(data)
+    if (!watch('keyword_2')) {
+      // 단일 검색
+      router.push({
+        query: {
+          q: data.keyword_1,
+        },
+      })
+      return
+    }
+    if (watch('search_option') === 'OR') {
+      // OR 연산 검색
+      router.push({
+        query: {
+          q: `${data.keyword_1}|${data.keyword_2}`,
+        },
+      })
+    } else {
+      // NOT 연산 검색
+      router.push({
+        query: {
+          q: `${data.keyword_1}-${data.keyword_2}`,
+        },
+      })
+    }
   })
 
   return (

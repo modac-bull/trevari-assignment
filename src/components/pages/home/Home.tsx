@@ -1,11 +1,10 @@
-import React, { use, useEffect } from 'react'
+import React from 'react'
 import { styled } from 'twin.macro'
 import SearchBook from './SearchBook'
-import { getSearchResult } from '@/apis/search/search'
 import { useRouter } from 'next/router'
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchBooksInfinityQuery } from '@/apis/search/search.query'
 import BookList from './BookList'
+import 'twin.macro'
 
 type Props = {}
 

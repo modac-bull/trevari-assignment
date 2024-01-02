@@ -1,3 +1,4 @@
+import { parseKeywords } from '@/utils/parseKeywords'
 import axios from 'axios'
 
 export type BookType = {
@@ -7,27 +8,6 @@ export type BookType = {
   price: string
   image: string
   url: string
-}
-
-type KeywordType =
-  | { type: 'single'; keyword: string }
-  | { type: 'or'; keywords: string[] }
-  | { type: 'not'; includeKeyword: string; excludeKeyword: string }
-
-type SearchParams = {
-  input: string
-  page?: number
-}
-
-// 검색어 parsing 함수
-const parseKeywords = (input: string): KeywordType => {
-  if (input.includes('|')) {
-    return { type: 'or', keywords: input.split('|').map(k => k.trim()) }
-  } else if (input.includes('-')) {
-    const [includeKeyword, excludeKeyword] = input.split('-').map(k => k.trim())
-    return { type: 'not', includeKeyword, excludeKeyword }
-  }
-  return { type: 'single', keyword: input.trim() }
 }
 
 // 도서 키워즈 조회 API

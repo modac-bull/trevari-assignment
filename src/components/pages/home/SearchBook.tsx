@@ -3,8 +3,9 @@ import Input from '@/components/ui/forms/inputs/Input'
 import Radio from '@/components/ui/forms/radio/Radio'
 import ValidMsg from '@/components/ui/forms/validMsg/ValidMsg'
 import { SearchBookOptions } from '@/data/constant'
+import { parseKeywords } from '@/utils/parseKeywords'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled, theme } from 'twin.macro'
 
@@ -13,6 +14,7 @@ export default function SearchBook() {
   const {
     register,
     watch,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -22,6 +24,34 @@ export default function SearchBook() {
       search_option: 'OR',
     },
   })
+
+  // q 파라미터로 검색어 입력 받기
+  useEffect(() => {
+    if (router.query.q) {
+      const query = router.query.q as string
+      const parsed = parseKeywords(query)
+      console.log('parsed : ', parsed)
+
+      switch (parsed.type) {
+        case 'or':
+          setValue('keyword_1', parsed.keywords[0])
+          setValue('keyword_2', parsed.keywords[1])
+          setValue('search_option', 'OR')
+          break
+        case 'not':
+          setValue('keyword_1', parsed.includeKeyword)
+          setValue('keyword_2', parsed.excludeKeyword)
+          setValue('search_option', 'NOT')
+          break
+        case 'single':
+        default:
+          setValue('keyword_1', parsed.keyword)
+          setValue('keyword_2', '')
+          setValue('search_option', 'OR')
+          break
+      }
+    }
+  }, [router])
 
   const submitHandler = handleSubmit(data => {
     if (!watch('keyword_2')) {

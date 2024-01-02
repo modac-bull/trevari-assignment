@@ -1,14 +1,6 @@
 import { parseKeywords } from '@/utils/parseKeywords'
 import axios from 'axios'
-
-export type BookType = {
-  title: string
-  subtitle: string
-  isbn13: string
-  price: string
-  image: string
-  url: string
-}
+import { BookType } from './search.type'
 
 // 도서 키워즈 조회 API
 const getBooksByKeyword = async (
@@ -42,14 +34,37 @@ export const getSearchResult = async (input = '', page = 1) => {
       const bookLists = await Promise.all(
         parsed.keywords.map(keyword => getBooksByKeyword(keyword, page)),
       )
-      return bookLists.flat()
+      const combinedBooks = bookLists.flat()
+      return {
+        books: combinedBooks,
+        page,
+        total: combinedBooks.length,
+        totalPages: page,
+      }
 
     case 'not':
       const books = await getBooksByKeyword(parsed.includeKeyword, page)
-      return filterBooksForNotOperation(books, parsed.excludeKeyword)
+      const filteredBooks = filterBooksForNotOperation(
+        books,
+        parsed.excludeKeyword,
+      )
+      return {
+        books: filteredBooks,
+        page,
+        total: filteredBooks.length,
+        totalPages: page,
+      }
 
     case 'single':
     default:
-      return getBooksByKeyword(parsed.keyword, page)
+      const response = await axios.get(
+        `https://api.itbook.store/1.0/search/${parsed.keyword}/${page}`,
+      )
+      return {
+        books: response.data.books,
+        page: response.data.page,
+        total: response.data.total,
+        totalPages: response.data.totalPages,
+      }
   }
 }

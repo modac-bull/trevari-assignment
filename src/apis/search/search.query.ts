@@ -12,11 +12,9 @@ export const useSearchBooksInfinityQuery = ({
     queryKey: ['book', params],
     queryFn: ({ pageParam = 0 }) => getSearchResult(params?.input, pageParam),
     getNextPageParam: lastPage => {
-      if (lastPage.page < lastPage.totalPages) {
-        return lastPage.page + 1
-      } else {
-        return undefined
-      }
+      const maxPages = Math.ceil(lastPage.total / 10)
+      const nextPage = Math.floor(lastPage.page / 10) + 1
+      return nextPage < maxPages ? nextPage : undefined
     },
     initialPageParam: 1, // 초기 페이지 설정
   })

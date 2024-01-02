@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from 'twin.macro'
 import SearchBook from './SearchBook'
 import { useRouter } from 'next/router'
 import { useSearchBooksInfinityQuery } from '@/apis/search/search.query'
 import BookList from './BookList'
 import 'twin.macro'
+import { useInView } from 'react-intersection-observer'
 
 type Props = {}
 
@@ -19,6 +20,19 @@ export default function HomePage({}: Props) {
     })
 
   console.log('data : ', data)
+
+  // `useInView` 훅 사용
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0,
+    rootMargin: '0px 0px 0px 0px',
+  })
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage])
 
   return (
     <HomePageConatiner>
@@ -43,9 +57,7 @@ export default function HomePage({}: Props) {
         <p>데이터 없음</p>
       )}
       {isFetchingNextPage && <span>로딩중</span>}
-      {/* <div ref={ref}></div> */}
-
-      {}
+      <div ref={ref}></div>
     </HomePageConatiner>
   )
 }

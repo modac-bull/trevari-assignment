@@ -30,21 +30,22 @@ export default function BookDetail() {
   return (
     <BookDetailContainer>
       <BackButton onClick={backHandler}>뒤로가기</BackButton>
-      <Image
-        src={data.image}
-        width={200}
-        height={200}
-        alt={data.title}
-        style={{ width: 'auto' }}
-      />
-      <Title>{data.title}</Title>
-      <Subtitle>{data.subtitle}</Subtitle>
-      <Authors>{data.authors}</Authors>
-      <Publisher>{data.publisher}</Publisher>
-      <Pages>{data.pages}</Pages>
-      <Rating>{data.rating}</Rating>
-      <Desc>{data.desc}</Desc>
-      <Price>{data.price}</Price>
+      <div tw="text-center">
+        <StyledImage
+          src={data.image}
+          width={200}
+          height={200}
+          alt={data.title}
+        />
+      </div>
+      <Title>Title : {data.title}</Title>
+      <Subtitle>Subtitle : {data.subtitle}</Subtitle>
+      <Authors>Authors : {data.authors}</Authors>
+      <Publisher>Publisher : {data.publisher}</Publisher>
+      <Pages>Pages : {data.pages}</Pages>
+      <Rating>Rating : {data.rating}</Rating>
+      <Desc>Description : {data.desc}</Desc>
+      <Price>Price : {data.price}</Price>
     </BookDetailContainer>
   )
 }
@@ -54,6 +55,11 @@ const BookDetailContainer = styled.div`
   padding: 15px 15px;
   border-radius: 8px;
 `
+const StyledImage = styled(Image)`
+  display: inline-block;
+  width: 'auto';
+`
+
 const Title = styled.div`
   font-size: 20px;
   font-weight: 700;

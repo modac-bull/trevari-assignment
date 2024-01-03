@@ -1,10 +1,9 @@
-// 쿼리
 
 import { useQuery } from '@tanstack/react-query'
-import { BookDetailQueryType, BookDetailType } from './books.type'
-import { AxiosError } from 'axios'
+import { BookDetailQueryType } from './books.type'
 import { getBookDetailbyIsbn } from './books'
 
+// 책 상세 API 쿼리
 export const useBookDetailbyIsbnQuery = ({
   params,
   useQueryOptions,
